@@ -53,3 +53,49 @@
 #     output_definition.close()
 #
 # definition_handler('CFTR_DNA.gb')
+
+def feature_handler(file):
+    import re
+    feature_begin = 0
+    feature_end = 0
+
+    with open(file, 'r') as gbfile:
+        line_number = 0
+        for line in gbfile:
+            if "FEATURES" in line:
+                line_number += 1
+                feature_begin = line_number
+            elif 'ORIGIN' in line:
+                feature_end = line_number - 1
+                break
+            else:
+                line_number += 1
+
+    # regex_string = re.compile('DEFINITION\s{2}')
+    # line = re.sub(regex_string, "", line)
+
+    with open(file, 'r') as gbfile:
+        line_number = 0
+        feature_list = []
+        organism = []
+
+        for line in gbfile:
+            if line_number < feature_begin:
+                line_number += 1
+                pass
+            elif feature_begin <= line_number <= feature_end:
+                line_number += 1
+                #line = line.strip()
+                line = re.sub('\s', "", line)
+                feature_list.append(line)
+
+        for i in feature_list:
+            if "/organism=" in i:
+                organism = feature_list.index(i)
+            else:
+                pass
+        #print(index_organism)
+
+
+
+feature_handler("CFTR_DNA.gb")
