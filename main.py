@@ -19,7 +19,8 @@
 #                     index_origin_end = line_number - 1  # Finds line number right after origin and subtracts 1.
 #     except(FileNotFoundError, IOError):
 #         return "File not found or incorrect file path"
-#         # Should I maybe add this to the output file? Printing kills the whole process, so should I avoid that as well?
+#         # Should I maybe add this to the output file?
+#         # Printing kills the whole process, so should I avoid that as well?
 #
 #     # Uses the line numbers from above code to select origin and then removes all non-alphabet characters
 #     with open(file, 'r') as gbfile:
@@ -35,7 +36,7 @@
 #                     output_file.write(line + "\n")
 #         output_sequence.close()
 #
-# origin_handler('CFTR_DNA.gb')
+# origin_handler('Testfile.gp')
 #
 # def definition_handler(file):
 #     import re  # Add to class, make it global inside the class
@@ -52,7 +53,7 @@
 #                 pass
 #     output_definition.close()
 #
-# definition_handler('CFTR_DNA.gb')
+# definition_handler('Testfile.gp')
 
 def feature_handler(file):
     import re
@@ -74,10 +75,11 @@ def feature_handler(file):
     # regex_string = re.compile('DEFINITION\s{2}')
     # line = re.sub(regex_string, "", line)
 
+    line_number = 0
+    feature_list = []
+    # index_organism = []
+
     with open(file, 'r') as gbfile:
-        line_number = 0
-        feature_list = []
-        organism = []
 
         for line in gbfile:
             if line_number < feature_begin:
@@ -85,17 +87,64 @@ def feature_handler(file):
                 pass
             elif feature_begin <= line_number <= feature_end:
                 line_number += 1
-                #line = line.strip()
-                line = re.sub('\s', "", line)
-                feature_list.append(line)
+                line = line.strip()
+                line = re.sub(' +', "$", line)  # Replaces 1 or more empty spaces by $
+                feature_list.append(line)  # Appends line to feature_list
 
-        for i in feature_list:
-            if "/organism=" in i:
-                organism = feature_list.index(i)
-            else:
-                pass
-        #print(index_organism)
+    # for i in feature_list:
+    #     if "/organism=" in i:
+    #         index_organism = feature_list.index(i)
+    #     else:
+    #         pass
 
+    location_tmp_parts = []  # Variable to hold parts of locations
+    feature_list_edited = []  # Feature list to hold corrected locations
 
+    #  Following statement checks for locations that span more then 1 line
+    #  and makes them into a single element in the list.
+    for i in feature_list:
+        if i.endswith(','):
+            location_tmp_parts.append(i)
+        elif i.endswith(')'):
+            location_tmp_parts.append(i)
+            # Joins the tmp locations into 1 and resets previous one if present.
+            location_tmp_compl = ''.join(location_tmp_parts)
+            feature_list_edited.append(location_tmp_compl)
+            location_tmp_parts = []  # Resets the tmp location holder
+        else:
+            feature_list_edited.append(i)
 
-feature_handler("CFTR_DNA.gb")
+    # print(feature_list_edited)
+
+    feature_list_final = []
+
+    with open("final_file.txt", "w") as final_file:
+        for i in feature_list_edited:
+            if '..' in i and '/' not in i:
+                index_i = feature_list_edited.index(i) + 1
+                # print(index_i)
+                feature_name, location = i.split('$', 1)
+                ## Call function that transforms b into actual sequence
+                # b = b.blablabla
+                # final_file.write('>' + feature_name + ' ' + feature_list_edited[index_i] + "\n" + location + "\n"*2)
+                qualifier = re.sub("\$", ' ', feature_list_edited[index_i])
+                location = re.sub("\.\.", ':', location)
+                print(location)
+                # print('>' + feature_name + ' ' + qualifier + "\n" + location + "\n"*2)
+                break
+    with open("final_file.txt", "r") as final_file:
+        for line in final_file:
+            print(line)
+
+    sequence_string = []
+    with open('output_sequence.txt', 'r') as sequence_str:
+        for line in sequence_str:
+            line = line.strip()
+            print(line)
+            sequence_string += line
+            sequence_string = ''.join(sequence_string)
+    print(sequence_string)
+
+feature_handler('Testfile.gp')
+
+# for i in feature_list_edited:
