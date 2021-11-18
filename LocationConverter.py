@@ -5,7 +5,7 @@ with open('output_sequence.txt', 'r') as origin:
         line = line.rstrip()
         DNA.append(line)
     DNA = ''.join(DNA)
-    print(len(DNA))
+    print(DNA)
 
 # print(DNA[265-1:402])
 
