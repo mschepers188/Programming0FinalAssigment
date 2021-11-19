@@ -41,23 +41,30 @@ class Feature:
                 feature_list_edited.append(i)
         # return feature_list_edited
 
-        # import LocationConverter
+        from LocationConverter import location_converter
 
         with open("final_file.txt", "w") as final_file:
             for i in feature_list_edited:
                 if '..' in i and '/' not in i:
                     index_i = feature_list_edited.index(i) + 1
                     feature_name, location = i.split('$', 1)
+                    print(feature_name, location)
                     qualifier = re.sub("\$", ' ', feature_list_edited[index_i])
                     location = re.sub("\.\.", ':', location)
+                    location = re.sub('\<|\>', "", location)
                     if 'join' in location:
-                        location = re.sub('join\(|\)', "", location)  # Replaces 1 or more empty spaces by $
-                        # Run Locationconverter normally
+                        location = re.sub('join\(|\)', "", location)  # Replaces 1 or more empty spaces by nothing
+                        if 'complement' in location:
+                            location = re.sub('complement|\(|\)', "", location)  # Replaces 1 or more empty spaces by nothing
+                            location = location_converter(location)
+                            # Run location converter and then nucleotide inverter
+                        else:
+                            pass
+                            location = location_converter(location)
                     elif 'complement' in location:
-                        location = re.sub('complement\(|\)', "", location)  # Replaces 1 or more empty spaces by $
-                        # Run Locationconverter with reverse complement
+                        location = re.sub('complement\(|\)', "", location)  # Replaces 1 or more empty spaces by nothing
                     else:
-                        pass
+                        location = location_converter(location)
                     ## Call function that transforms b into actual sequence
                     # b = b.blablabla
                     final_file.write('>' + feature_name + ' ' + qualifier + "\n" + location + "\n" * 2)

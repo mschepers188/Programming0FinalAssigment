@@ -1,5 +1,3 @@
-DNASeq = 'gattcgctaaatcatccatc'
-
 def basechanger(Seq, output):
     DNASeq_compl = []
     DNASeq_rev_compl = []

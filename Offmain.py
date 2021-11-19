@@ -39,7 +39,7 @@ def origin_handler(file):
                     output_file.write(line + "\n")
         output_sequence.close()
     # print(dna_list)
-origin_handler('Testfile.gp')
+origin_handler('CFTR_DNA.gb')
 
 def definition_handler(file):
     import re  # Add to class, make it global inside the class
@@ -112,6 +112,7 @@ def location_handler(feature_list):
         else:
             feature_list_edited.append(i)
     # print(feature_list_edited)
+    from LocationConverter import location_converter
 
     with open("final_file.txt", "w") as final_file:
         for i in feature_list_edited:
@@ -124,10 +125,10 @@ def location_handler(feature_list):
                 if 'join' in location:
                     location = re.sub('join\(|\)', "", location)  # Replaces 1 or more empty spaces by $
                     location = re.sub('\<|\>', "", location)
-                    # print(location)
+                    print(location_converter(location))
                 elif 'complement' in location:
                     location = re.sub('complement\(|\)', "", location)  # Replaces 1 or more empty spaces by $
-                    print(location)
+                    # print(location)
                 else:
                     # print(location)
                     pass
@@ -136,7 +137,7 @@ def location_handler(feature_list):
                 ## Call function that transforms b into actual sequence
                 # b = b.blablabla
                 final_file.write('>' + feature_name + ' ' + qualifier + "\n" + location + "\n"*2)
-                print('its working')
+                # print('its working')
                 # print('>' + feature_name + ' ' + feature_list_edited[index_i] + "\n" + location + "\n"*2)
 
 def feature_handler(file):
