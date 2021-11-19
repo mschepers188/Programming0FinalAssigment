@@ -8,6 +8,7 @@ def location_converter(locations):
         DNA = ''.join(DNA) # Turn list into single string
 
     splitLocs = locations.split(",")
+    # print(splitLocs)
     tmp_sequence = []
     for i in splitLocs:
         begin, end = i.split(':')
@@ -15,8 +16,11 @@ def location_converter(locations):
         begin = int(begin)-1 # Python indexing starts with 0, whereas DNA counting with 1.
         end = int(end) # Last item is non-inclusive
         # print(begin, end)
+        # print(DNA[begin:end])
         tmp_sequence.append(DNA[begin:end])
     tmp_sequence = ''.join(tmp_sequence)
+    # print(tmp_sequence)
+
     return(tmp_sequence)
 
 # location_converter(locations)

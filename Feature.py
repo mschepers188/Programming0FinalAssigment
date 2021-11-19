@@ -48,7 +48,7 @@ class Feature:
                 if '..' in i and '/' not in i:
                     index_i = feature_list_edited.index(i) + 1
                     feature_name, location = i.split('$', 1)
-                    print(feature_name, location)
+                    # print(feature_name, location)
                     qualifier = re.sub("\$", ' ', feature_list_edited[index_i])
                     location = re.sub("\.\.", ':', location)
                     location = re.sub('\<|\>', "", location)
@@ -59,16 +59,18 @@ class Feature:
                             location = location_converter(location)
                             # Run location converter and then nucleotide inverter
                         else:
-                            pass
                             location = location_converter(location)
                     elif 'complement' in location:
                         location = re.sub('complement\(|\)', "", location)  # Replaces 1 or more empty spaces by nothing
+                        location = location_converter(location)
                     else:
                         location = location_converter(location)
-                    ## Call function that transforms b into actual sequence
-                    # b = b.blablabla
+
+                    location = '\n'.join(re.findall('.{1,%i}' % 60, location))
+                    # print(location)
                     final_file.write('>' + feature_name + ' ' + qualifier + "\n" + location + "\n" * 2)
                     # print('>' + feature_name + ' ' + feature_list_edited[index_i] + "\n" + location + "\n"*2)
+                    # final_file.write('>' + feature_name + ' ' + qualifier + "\n")
 
     def feature_handler(self, file):
         # Grabs the lines where the features are located and add them to a list.
