@@ -1,6 +1,6 @@
-DNASeq = 'atccgggtcaactttagtccgttgaacatgcttcttgaaaacctagttctcttaaaataa'
+DNASeq = 'gattcgctaaatcatccatc'
 
-def basechanger(Seq):
+def basechanger(Seq, output):
     DNASeq_compl = []
     DNASeq_rev_compl = []
 
@@ -17,7 +17,11 @@ def basechanger(Seq):
     DNASeq_compl = ''.join(DNASeq_compl)
     DNASeq_rev_compl = DNASeq_compl[::-1]
 
-    print(DNASeq_compl)
-    print(DNASeq_rev_compl)
+    if output == 'compl':
+        return(DNASeq_compl)
+    elif output == 'rev_compl':
+        return(DNASeq_rev_compl)
+    else:
+        return('incorrect input, please enter: "Compl" or "rev_compl"')
 
-basechanger(DNASeq)
+basechanger(DNASeq, 're_compl')
