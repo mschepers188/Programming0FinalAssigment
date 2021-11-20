@@ -13,9 +13,14 @@ class GenebankParser:
                 if 'DEFINITION' in line:  # Finds the first line containing the definition
                     tmp_definition = [line]
                     line_found = True
-                elif line_found == True and not line.endswith('.'):  # If definition has been found, appends line.
+                    if line.endswith('.'):
+                        break
+                    else:
+                        pass
+                elif line_found is True and not line.endswith('.'):  # If definition has been found, appends line.
                     tmp_definition.append(line)
-                elif line_found == True and line.endswith('.'):
+                    print(line)
+                elif line_found is True and line.endswith('.'):
                     # If definition has been found and line ends with a '.' end of definition has been reached.
                     tmp_definition.append(line)
                     line_found = False  # Set to false so program won't append any more lines.

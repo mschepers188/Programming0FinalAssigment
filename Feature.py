@@ -19,9 +19,9 @@ class Feature:
                     break
                 else:
                     pass
-        return (feature_begin, feature_end)
+        return feature_begin, feature_end
 
-    def location_handler_separated(self, feature_list, origin):
+    def location_handler_separated(self, feature_list, origin, definition):
         location_tmp_parts = []  # Variable to hold parts of locations
         feature_list_edited = []  # Feature list to hold corrected locations
         import re
@@ -43,6 +43,7 @@ class Feature:
         from NucleotideInverter import basechanger
 
         with open("final_file.txt", "w") as final_file:
+            final_file.write(definition + "\n" * 2)
             for i in feature_list_edited:
                 if '..' in i and '/' not in i:
                     index_i = feature_list_edited.index(i) + 1
@@ -64,6 +65,9 @@ class Feature:
                         location = re.sub('complement\(|\)', "", location)  # Replaces 1 or more empty spaces by nothing
                         location = location_converter(location, origin)
                         location = basechanger(location, 'rev_compl')
+                    elif 'order' in location:
+                        location = re.sub('order\(|\)', "", location)
+                        location = location_converter(location, origin)
                     else:
                         location = location_converter(location, origin)
 
@@ -73,7 +77,7 @@ class Feature:
                     # print('>' + feature_name + ' ' + feature_list_edited[index_i] + "\n" + location + "\n"*2)
                     # final_file.write('>' + feature_name + ' ' + qualifier + "\n")
 
-    def location_handler_uppercased(self, feature_list, origin):
+    def location_handler_uppercased(self, feature_list, origin, definition):
         location_tmp_parts = []  # Variable to hold parts of locations
         feature_list_edited = []  # Feature list to hold corrected locations
         import re
@@ -96,6 +100,7 @@ class Feature:
         from NucleotideInverter import basechanger
 
         with open("final_file.txt", "w") as final_file:
+            final_file.write(definition + "\n" * 2)
             for i in feature_list_edited:
                 origin_tmp = origin
                 if '..' in i and '/' not in i:
@@ -120,6 +125,9 @@ class Feature:
                     elif 'complement' in location:
                         location = re.sub('complement|\(|\)', "", location)  # Replaces complement() by nothing
                         origin_tmp = location_converter_upper_rev(location, origin_tmp)
+                    elif 'order' in location:
+                        location = re.sub('order\(|\)', "", location)
+                        origin_tmp = location_converter_upper(location, origin_tmp)
                     else:
                         origin_tmp = location_converter_upper(location, origin_tmp)
 
@@ -130,10 +138,10 @@ class Feature:
                     # print(seq_end)
                     origin_tmp = origin_tmp[0:seq_end]
 
-                    origin_tmp = '\n'.join(re.findall('.{1,%i}' % 60, origin_tmp))
+                    origin_tmp = '\n'.join(re.findall('.{1,%i}' % 60, origin_tmp)) # Splits the origin into chunks of 60
                     final_file.write('>' + feature_name + ' ' + qualifier + "\n" + origin_tmp + "\n" * 2)
 
-    def feature_handler(self, file, origin, output_format):
+    def feature_handler(self, file, origin, definition, output_format):
         # Grabs the lines where the features are located and adds them to a list.
         feature_list = []
         index_organism = []
@@ -158,9 +166,9 @@ class Feature:
         self.FeatureList = feature_list
         # 'location_handler' checks for locations that span more then 1 line and unites them.
         if output_format == 'separated':
-            self.location_handler_separated(self.FeatureList, origin)
+            self.location_handler_separated(self.FeatureList, origin, definition)
         elif output_format == 'uppercased':
-            self.location_handler_uppercased(self.FeatureList, origin)
+            self.location_handler_uppercased(self.FeatureList, origin, definition)
 
 # classy = Feature()
 # # print(classy.feature_handler('Testfile.gp'))
