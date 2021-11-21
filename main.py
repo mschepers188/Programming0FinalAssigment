@@ -32,4 +32,4 @@ def main(file, output_format ='separated'):
     else:
         return "File not found or incorrect path"
 
-main('CFTR_protein.gp', 'uppercased')
+main('CFTR_DNA.gb', 'uppercased')

@@ -45,7 +45,7 @@ class Feature:
         with open("final_file.txt", "w") as final_file:
             final_file.write(definition + "\n" * 2)
             for i in feature_list_edited:
-                if '..' in i and '/' not in i:
+                if '..' in i and '/' not in i or i[-1].isdigit() and '/' not in i:
                     index_i = feature_list_edited.index(i) + 1
                     feature_name, location = i.split('$', 1)
                     # print(feature_name, location)
@@ -103,7 +103,7 @@ class Feature:
             final_file.write(definition + "\n" * 2)
             for i in feature_list_edited:
                 origin_tmp = origin
-                if '..' in i and '/' not in i:
+                if '..' in i and '/' not in i or i[-1].isdigit() and '/' not in i:
                     index_i = feature_list_edited.index(i) + 1
                     # The string with '..' and without '/' contains the feature name and the coordenates
                     feature_name, location = i.split('$', 1)

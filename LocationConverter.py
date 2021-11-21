@@ -44,7 +44,7 @@ def location_converter_upper_rev(locations, origin):
             base_number = int(i) - 1
             reverse_compl_seq = basechanger(origin[base_number], 'rev_compl')
             origin_tmp = origin_tmp[:base_number-1] + reverse_compl_seq.upper() + origin_tmp[base_number+1:]
-    # print(origin_tmp)
+    #print(origin_tmp)
     return origin_tmp
 
 # location_converter_upper_rev(locations, origin)
