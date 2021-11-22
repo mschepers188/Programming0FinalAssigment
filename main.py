@@ -1,29 +1,28 @@
 from GenbankParser import *
 from Feature import *
-import os.path
 from pathlib import Path
+import sys
+import os.path
 
-def main(file, output_format ='separated'):
-    Filetype = ''
+
+def main(file, output_format):
     # Output format can be 'separated' or 'uppercased'
 
     if file.lower().endswith('.gp'):
-        Filetype = 'gp'
+        pass
     elif file.lower().endswith('.gb'):
-        Filetype = 'gb'
+        pass
     else:
         return "Incorrect file format"
         # Return ends the function so the task won't be performed on an incorrect file type
 
     if os.path.isfile(file):
         path_object = Path(file)
-        # print(path_object.parent)
         file_name = path_object.stem
-        file_extention = path_object.suffix
         new_filename = f"{file_name}_features.txt"
 
         gbankvar1 = GenebankParser()
-        definition = gbankvar1.definition_handler(file) # Returns definition
+        definition = gbankvar1.definition_handler(file)  # Returns definition
         origin = gbankvar1.origin_handler(file)  # Returns origin
         # Determine if protein or DNA/RNA, you might have to substitute it to get a DNA origin
         gbankvar2 = Feature()
@@ -32,4 +31,9 @@ def main(file, output_format ='separated'):
     else:
         return "File not found or incorrect path"
 
-main('CFTR_DNA.gb', 'uppercased')
+
+if __name__ == "__main__":
+    # To accept user input from terminal, the sys.argv package is used
+    file = sys.argv[1]
+    output_format = sys.argv[2] if len(sys.argv) > 2 else 'separated'
+    main(file, output_format)

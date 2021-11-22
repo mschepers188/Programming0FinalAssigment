@@ -1,25 +1,22 @@
-def basechanger(Seq, output_type):
-    DNASeq_compl = []
-    DNASeq_rev_compl = []
+def basechanger(seq, output_type):
+    dna_seq_compl = []
 
-    for i in Seq:
+    for i in seq:
         if i == 'a'.casefold():
-            DNASeq_compl.append('t')
+            dna_seq_compl.append('t')
         elif i == 't'.casefold():
-            DNASeq_compl.append('a')
+            dna_seq_compl.append('a')
         elif i == 'g'.casefold():
-            DNASeq_compl.append('c')
+            dna_seq_compl.append('c')
         elif i == 'c'.casefold():
-            DNASeq_compl.append('g')
+            dna_seq_compl.append('g')
 
-    DNASeq_compl = ''.join(DNASeq_compl)
-    DNASeq_rev_compl = DNASeq_compl[::-1]
+    dna_seq_compl = ''.join(dna_seq_compl)
+    dna_seq_rev_compl = dna_seq_compl[::-1]
 
     if output_type == 'compl':
-        return(DNASeq_compl)
+        return dna_seq_compl
     elif output_type == 'rev_compl':
-        return(DNASeq_rev_compl)
+        return dna_seq_rev_compl
     else:
-        return('incorrect input, please enter: "Compl" or "rev_compl"')
-
-# basechanger(DNASeq, 're_compl')
+        return 'incorrect input, please enter: "compl" or "rev_compl"'
