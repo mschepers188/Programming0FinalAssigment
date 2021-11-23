@@ -1,4 +1,9 @@
 def location_converter(locations, origin):
+    """
+    Takes 2 parameters, 'locations' which is delivered by 'Feature' as a string with brackets, a word (optional) and
+    numbers. It takes only the numbers and uses these to take specific parts of the string 'origin'.
+    Returns a string containing a selection of 'origin' given by 'locations'.
+    """
 
     splitlocs = locations.split(",")
     tmp_sequence = []
@@ -17,6 +22,12 @@ def location_converter(locations, origin):
 
 
 def location_converter_upper_rev(locations, origin):
+    """
+    Takes 2 parameters, 'locations' which is delivered by 'Feature' as a string with brackets, a word (optional) and
+    numbers. It takes only the numbers and uses these to take specific parts of the string 'origin'.
+    Returns a string containing the origin with a uppercased and reverse complement part in 'origin'
+    determined by the given 'locations'.
+    """
 
     from NucleotideInverter import basechanger
 
@@ -37,6 +48,11 @@ def location_converter_upper_rev(locations, origin):
 
 
 def location_converter_upper(locations, origin):
+    """
+    Takes 2 parameters, 'locations' which is delivered by 'Feature' as a string with brackets, a word (optional) and
+    numbers. It takes only the numbers and uses these to take specific parts of the string 'origin'.
+    Returns a string containing the origin with a uppercased part in 'origin' determined by the given 'locations'.
+    """
     splitlocs = locations.split(",")
     origin_tmp = origin
     for i in splitlocs:

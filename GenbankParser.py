@@ -2,10 +2,19 @@ import re
 
 
 class GenebankParser:
+
+
     definition = []
     origin = []
 
     def definition_handler(self, file):
+        """
+        'definition_handler' takes 'self' and 'file' as parameters. The entered file should be a genebank type file with
+        DNA, mRNA or protein sequence.
+        The file is read line by line and indexed, the line with the definition is then stripped, cleaned and returned.
+        'definition_handler' returns the definition from the input file as a single string
+        """
+
         tmp_definition = []
         line_found = False
 
@@ -40,6 +49,14 @@ class GenebankParser:
         return self.definition
 
     def origin_handler(self, file):
+        """
+        'origin_handler' takes 'self' and 'file' as parameters. The entered file should be a genebank type file with
+        DNA, mRNA or protein sequence.
+        The file is read line by line and indexed, the lines with the origin are then stripped, cleaned and returned.
+        'origin_handler' returns the origin from the input file as a single string.
+        """
+
+
         # Creating null variables for loop
         index_origin_begin = 0
         index_origin_end = 0

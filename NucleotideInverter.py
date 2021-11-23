@@ -1,4 +1,10 @@
 def basechanger(seq, output_type):
+    """
+    Takes 2 parameters
+    :param seq:
+    :param output_type:
+    :return:
+    """
     dna_seq_compl = []
 
     for i in seq:

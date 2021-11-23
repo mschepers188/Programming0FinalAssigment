@@ -6,7 +6,12 @@ import os.path
 
 
 def main(file, output_format):
-    # Output format can be 'separated' or 'uppercased'
+    """
+    This program functions as a Genebank feature extractor and is compatible with DNA, mRNA and protein files.
+    The output format can be 'separated' or 'uppercased', not entering the second argument (sys.argv[2]) results
+    in the default 'separated'. By utilizing the two classes 'GenebankParser' and 'Feature' the defitinition, origin
+    and features are extracted from the file and delivered back to the user as .txt file.
+    """
 
     if file.lower().endswith('.gp'):
         pass
@@ -16,6 +21,12 @@ def main(file, output_format):
         return "Incorrect file format"
         # Return ends the function so the task won't be performed on an incorrect file type
 
+    if output_format == 'separated' or 'uppercased':
+        pass
+    else:
+        return "Incorrect output file requested"
+
+
     if os.path.isfile(file):
         path_object = Path(file)
         file_name = path_object.stem
@@ -24,12 +35,11 @@ def main(file, output_format):
         gbankvar1 = GenebankParser()
         definition = gbankvar1.definition_handler(file)  # Returns definition
         origin = gbankvar1.origin_handler(file)  # Returns origin
-        # Determine if protein or DNA/RNA, you might have to substitute it to get a DNA origin
         gbankvar2 = Feature()
         gbankvar2.feature_handler(file, origin, definition, output_format)
         os.rename('final_file.txt', new_filename)
     else:
-        return "File not found or incorrect path"
+        return FileNotFoundError
 
 
 if __name__ == "__main__":
