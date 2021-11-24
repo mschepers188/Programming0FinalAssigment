@@ -1,9 +1,7 @@
 def basechanger(seq, output_type):
     """
-    Takes 2 parameters
-    :param seq:
-    :param output_type:
-    :return:
+    Takes 2 parameters, a DNA sequence (seq) and output type ("compl" or "rev_compl" which respectively give
+    the complement DNA or the reverse complement DNA').
     """
     dna_seq_compl = []
 
